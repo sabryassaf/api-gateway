@@ -14,6 +14,10 @@ import (
 	"google.golang.org/grpc"
 )
 
+const (
+	logLevelDebug = 5
+)
+
 // InitGradesGRPCClient initializes the grades-microservice gRPC client connection.
 func InitGradesGRPCClient(address string) (gradesProtos.GradesServiceClient, error) {
 	conn, err := grpc.NewClient(address, grpc.WithTransportCredentials(insecure.NewCredentials()))
@@ -33,14 +37,22 @@ func GetStudentCourseGradesHandler(c *gin.Context, grpcClient gradesProtos.Grade
 	}
 
 	token := strings.TrimPrefix(authHeader, "Bearer ")
+	semester := c.Param("semester")
 	studentId := c.Param("studentId")
 	courseId := c.Param("courseId")
+
 	// Build gRPC request.
 	request := &gradesProtos.GetStudentCourseGradesRequest{
 		Token:     token,
-		StudentId: studentId,
 		CourseId:  courseId,
+		Semester:  semester,
+		StudentId: studentId,
 	}
+
+	logger := klog.FromContext(c.Request.Context())
+	logger.V(logLevelDebug).Info("Received request for student course grades", "course_id", request.CourseId,
+		"semester", request.Semester, "student_id", request.StudentId)
+
 	// Call the gRPC server.
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
@@ -55,12 +67,12 @@ func GetStudentCourseGradesHandler(c *gin.Context, grpcClient gradesProtos.Grade
 	}
 
 	// Send response to the client.
-	c.JSON(http.StatusOK, response.CourseGrades)
+	c.JSON(http.StatusOK, response.Grades)
 }
 
-// GetStudentGradesHandler handles REST requests and calls the gRPC Grades Microservice to return
-// all the student grades
-func GetStudentGradesHandler(c *gin.Context, grpcClient gradesProtos.GradesServiceClient) {
+// GetStudentSemesterGradesHandler handles REST requests and calls the gRPC Grades Microservice
+// to return all the student grades for a specific semester.
+func GetStudentSemesterGradesHandler(c *gin.Context, grpcClient gradesProtos.GradesServiceClient) {
 	authHeader := c.GetHeader("Authorization")
 	if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "No authorization token provided"})
@@ -68,21 +80,25 @@ func GetStudentGradesHandler(c *gin.Context, grpcClient gradesProtos.GradesServi
 	}
 
 	token := strings.TrimPrefix(authHeader, "Bearer ")
-	// Log all parameters for debugging
-	klog.Infof("All params: %v", c.Params)
-
+	semester := c.Param("semester")
 	studentId := c.Param("student_id")
-	klog.Infof("Student ID from param: '%s'", studentId)
+
+	logger := klog.FromContext(c.Request.Context())
+	logger.V(logLevelDebug).Info("Received request for student grades", "semester", semester, "student_id", studentId)
 
 	// Build gRPC request.
-	request := &gradesProtos.StudentId{Token: token, StudentId: studentId}
-	klog.Infof("Request built with student ID: '%s'", request.StudentId)
+	request := &gradesProtos.GetStudentSemesterGradesRequest{
+		Token:     token,
+		Semester:  semester,
+		StudentId: studentId,
+	}
+	logger.V(logLevelDebug).Info("Request built with student ID: '%s'", request.StudentId)
 
 	// Call the gRPC server.
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	response, err := grpcClient.GetStudentGrades(ctx, request)
+	response, err := grpcClient.GetStudentSemesterGrades(ctx, request)
 	if err != nil {
 		klog.Errorf("Error calling gRPC Grades Microservice: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch grades"})

@@ -27,12 +27,15 @@ func RegisterGradesRoutes(router *gin.Engine) (gradesProtos.GradesServiceClient,
 	}
 
 	// Rest endpoints.
-	router.GET("/api/grades/:student_id/:courseId", func(c *gin.Context) {
+
+	// Get all grades for a student in a specific course for a specific semester.
+	router.GET("/api/grades/:semester/:student_id/:courseId", func(c *gin.Context) {
 		controllers.GetStudentCourseGradesHandler(c, grpcClient)
 	})
 
-	router.GET("/api/grades/:student_id", func(c *gin.Context) {
-		controllers.GetStudentGradesHandler(c, grpcClient)
+	// Get all grades for a student in a specific semester.
+	router.GET("/api/grades/:semester/:student_id", func(c *gin.Context) {
+		controllers.GetStudentSemesterGradesHandler(c, grpcClient)
 	})
 
 	router.POST("/api/grades/homework", func(c *gin.Context) {
