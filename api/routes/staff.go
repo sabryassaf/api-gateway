@@ -27,19 +27,16 @@ func RegisterStaffRoutes(router *gin.Engine) (staffProtos.StaffServiceClient, er
 	}
 
 	// Rest endpoints.
-	router.GET("/api/staff/:staffId", func(c *gin.Context) {
-		controllers.GetStaffMemberHandler(c, grpcClient)
-	})
-	router.GET("/api/staff/:staffId/courses", func(c *gin.Context) {
-		controllers.GetCoursesListHandler(c, grpcClient)
-	})
-	router.POST("/api/staff", func(c *gin.Context) {
+	router.POST("/api/staff/create", func(c *gin.Context) {
 		controllers.CreateStaffMemberHandler(c, grpcClient)
 	})
-	router.PUT("/api/staff/:staffId", func(c *gin.Context) {
+	router.GET("/api/staff/get/:staffID", func(c *gin.Context) {
+		controllers.GetStaffMemberHandler(c, grpcClient)
+	})
+	router.PUT("/api/staff/update/:staffID", func(c *gin.Context) {
 		controllers.UpdateStaffMemberHandler(c, grpcClient)
 	})
-	router.DELETE("/api/staff/:staffId", func(c *gin.Context) {
+	router.DELETE("/api/staffs/:staffID", func(c *gin.Context) {
 		controllers.DeleteStaffMemberHandler(c, grpcClient)
 	})
 

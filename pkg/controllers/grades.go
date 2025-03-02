@@ -107,26 +107,14 @@ func GetStudentSemesterGradesHandler(c *gin.Context, grpcClient gradesProtos.Gra
 	c.JSON(http.StatusOK, response)
 }
 
-func AddHomeworkGradeHandler(c *gin.Context, grpcClient gradesProtos.GradesServiceClient) {
+func AddSingleGradeHandler(c *gin.Context, grpcClient gradesProtos.GradesServiceClient) {
 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Not Implemented"})
 }
 
-func AddExamGradeHandler(c *gin.Context, grpcClient gradesProtos.GradesServiceClient) {
+func UpdateSingleGradeHandler(c *gin.Context, grpcClient gradesProtos.GradesServiceClient) {
 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Not Implemented"})
 }
 
-func UpdateHomeworkGradeHandler(c *gin.Context, grpcClient gradesProtos.GradesServiceClient) {
-	c.JSON(http.StatusInternalServerError, gin.H{"error": "Not Implemented"})
-}
-
-func UpdateExamGradeHandler(c *gin.Context, grpcClient gradesProtos.GradesServiceClient) {
-	c.JSON(http.StatusInternalServerError, gin.H{"error": "Not Implemented"})
-}
-
-func DeleteHomeworkGradeHandler(c *gin.Context, grpcClient gradesProtos.GradesServiceClient) {
-	c.JSON(http.StatusInternalServerError, gin.H{"error": "Not Implemented"})
-}
-
-func DeleteExamGradeHandler(c *gin.Context, grpcClient gradesProtos.GradesServiceClient) {
+func DeleteSingleGradeHandler(c *gin.Context, grpcClient gradesProtos.GradesServiceClient) {
 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Not Implemented"})
 }

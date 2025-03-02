@@ -3,15 +3,13 @@ package controllers
 import (
 	"context"
 	"net/http"
-	"strings"
 	"time"
 
 	studentsProtos "github.com/BetterGR/students-microservice/protos"
-	"google.golang.org/grpc/credentials/insecure"
-	"k8s.io/klog/v2"
-
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"k8s.io/klog/v2"
 )
 
 // InitStudentsGRPCClient initializes the students-microservice gRPC client connection.
@@ -24,55 +22,85 @@ func InitStudentsGRPCClient(address string) (studentsProtos.StudentsServiceClien
 	return studentsProtos.NewStudentsServiceClient(conn), nil
 }
 
-// GetStudentCourssHandler handles REST requests and calls the gRPC Students Microservice.
-func GetStudentCoursesHandler(c *gin.Context, grpcClient studentsProtos.StudentsServiceClient) {
-	// Extract token from Authorization header
-	authHeader := c.GetHeader("Authorization")
-	if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "No authorization token provided"})
-		return
-	}
-	token := strings.TrimPrefix(authHeader, "Bearer ")
-
-	studentId := c.Param("studentId")
-	// Build gRPC request with token
-	request := &studentsProtos.GetStudentCoursesRequest{
-		Token: token, // Add token as the first field
-		Id:    studentId,
-	}
-	// Call the gRPC server.
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	klog.Infof("making request for student courses")
-	response, err := grpcClient.GetStudentCourses(ctx, request)
-
-	if err != nil {
-		klog.Errorf("Error calling gRPC Students Microservice: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch students"})
-
-		return
-	}
-
-	// Send response to the client.
-	c.JSON(http.StatusOK, response.GetCourses())
-}
-
 func CreateStudentHandler(c *gin.Context, grpcClient studentsProtos.StudentsServiceClient) {
-	c.JSON(http.StatusInternalServerError, gin.H{"error": "Not Implemented"})
+	var student studentsProtos.Student
+	if err := c.ShouldBindJSON(&student); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if _, err := grpcClient.CreateStudent(ctx, &studentsProtos.CreateStudentRequest{Student: &student}); err != nil {
+		klog.Errorf("Failed to create student: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create student"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Student created successfully"})
 }
 
 func GetStudentHandler(c *gin.Context, grpcClient studentsProtos.StudentsServiceClient) {
-	c.JSON(http.StatusInternalServerError, gin.H{"error": "Not Implemented"})
+	studentID := c.Param("studentID")
+	if studentID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "studentID is required"})
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	resp, err := grpcClient.GetStudent(ctx, &studentsProtos.GetStudentRequest{StudentID: studentID})
+	if err != nil {
+		klog.Errorf("Failed to get student: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch student"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"studentID":   resp.GetStudent().GetStudentID(),
+		"firstName":   resp.GetStudent().GetFirstName(),
+		"lastName":    resp.GetStudent().GetLastName(),
+		"email":       resp.GetStudent().GetEmail(),
+		"phoneNumber": resp.GetStudent().GetPhoneNumber(),
+	})
 }
 
 func UpdateStudentHandler(c *gin.Context, grpcClient studentsProtos.StudentsServiceClient) {
-	c.JSON(http.StatusInternalServerError, gin.H{"error": "Not Implemented"})
-}
+	var student studentsProtos.Student
+	if err := c.ShouldBindJSON(&student); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-func GetStudentGradesHandlerStudent(c *gin.Context, grpcClient studentsProtos.StudentsServiceClient) {
-	c.JSON(http.StatusInternalServerError, gin.H{"error": "Not Implemented"})
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if _, err := grpcClient.UpdateStudent(ctx, &studentsProtos.UpdateStudentRequest{Student: &student}); err != nil {
+		klog.Errorf("Failed to update student: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update student"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Student updated successfully"})
 }
 
 func DeleteStudentHandler(c *gin.Context, grpcClient studentsProtos.StudentsServiceClient) {
-	c.JSON(http.StatusInternalServerError, gin.H{"error": "Not Implemented"})
+	studentID := c.Param("studentID")
+	if studentID == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "studentID is required"})
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if _, err := grpcClient.DeleteStudent(ctx, &studentsProtos.DeleteStudentRequest{StudentID: studentID}); err != nil {
+		klog.Errorf("Failed to delete student: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete student"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Student deleted successfully"})
 }

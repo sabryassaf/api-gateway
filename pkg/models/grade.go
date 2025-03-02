@@ -22,27 +22,27 @@ type GradeSubmission struct {
 
 type addHomeworkGradeRequest struct {
 	GradeSubmission GradeSubmission `json:"grade_submission" binding:"required"`
-	HomeworkID       string          `json:"homework_id" binding:"required"`
+	HomeworkID      string          `json:"homework_id" binding:"required"`
 }
 
 type addExamGradeRequest struct {
 	GradeSubmission GradeSubmission `json:"grade_submission" binding:"required"`
-	ExamID           string          `json:"exam_id" binding:"required"`
+	ExamID          string          `json:"exam_id" binding:"required"`
 }
 
 type updateHomeworkGradeRequest struct {
 	GradeSubmission GradeSubmission `json:"grade_submission" binding:"required"`
-	HomeworkID       string          `json:"homework_id" binding:"required"`
+	HomeworkID      string          `json:"homework_id" binding:"required"`
 }
 
 type updateExamGradeRequest struct {
 	GradeSubmission GradeSubmission `json:"grade_submission" binding:"required"`
-	ExamID           string          `json:"exam_id" binding:"required"`
+	ExamID          string          `json:"exam_id" binding:"required"`
 }
 
 type deleteHomeworkGradeRequest struct {
-	StudentID string `json:"student_id" binding:"required"`
-	CourseID  string `json:"course_id" binding:"required"`
+	StudentID  string `json:"student_id" binding:"required"`
+	CourseID   string `json:"course_id" binding:"required"`
 	HomeworkID string `json:"homework_id" binding:"required"`
 }
 
@@ -53,8 +53,8 @@ type deleteExamGradeRequest struct {
 }
 
 type getHomeworkGradeRequest struct {
-	StudentID string `json:"student_id" binding:"required"`
-	CourseID  string `json:"course_id" binding:"required"`
+	StudentID  string `json:"student_id" binding:"required"`
+	CourseID   string `json:"course_id" binding:"required"`
 	HomeworkID string `json:"homework_id" binding:"required"`
 }
 
@@ -70,8 +70,8 @@ type getStudentCourseGradeRequest struct {
 }
 
 type getHomeworkGradesRespo struct {
-	StudentID string `json:"student_id" binding:"required"`
-	CourseID  string `json:"course_id" binding:"required"`
+	StudentID  string `json:"student_id" binding:"required"`
+	CourseID   string `json:"course_id" binding:"required"`
 	HomeworkID string `json:"homework_id" binding:"required"`
 }
 

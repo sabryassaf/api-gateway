@@ -27,22 +27,16 @@ func RegisterStudentsRoutes(router *gin.Engine) (studentsProtos.StudentsServiceC
 	}
 
 	// Rest endpoints.
-	router.GET("/api/students/:studentId/courses", func(c *gin.Context) {
-		controllers.GetStudentCoursesHandler(c, grpcClient)
-	})
-	router.POST("/api/students", func(c *gin.Context) {
+	router.POST("/api/students/create", func(c *gin.Context) {
 		controllers.CreateStudentHandler(c, grpcClient)
 	})
-	router.GET("/api/students/:studentId", func(c *gin.Context) {
+	router.GET("/api/students/get/:studentID", func(c *gin.Context) {
 		controllers.GetStudentHandler(c, grpcClient)
 	})
-	router.PUT("/api/students/:studentId", func(c *gin.Context) {
+	router.PUT("/api/students/update/:studentID", func(c *gin.Context) {
 		controllers.UpdateStudentHandler(c, grpcClient)
 	})
-	router.GET("/api/students/:studentId/grades", func(c *gin.Context) {
-		controllers.GetStudentGradesHandlerStudent(c, grpcClient)
-	})
-	router.DELETE("/api/students/:studentId", func(c *gin.Context) {
+	router.DELETE("/api/students/delete/:studentID", func(c *gin.Context) {
 		controllers.DeleteStudentHandler(c, grpcClient)
 	})
 
