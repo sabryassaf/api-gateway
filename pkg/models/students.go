@@ -16,7 +16,7 @@ type getStudentRequest struct {
 }
 
 type createStudentRequest struct {
-	ID 	  string `json:"id" binding:"required"`
+	ID        string `json:"id" binding:"required"`
 	FirstName string `json:"first_name" binding:"required"`
 	LastName  string `json:"last_name" binding:"required"`
 	Email     string `json:"email" binding:"required"`
@@ -58,18 +58,17 @@ type updateStudentResponse struct {
 	Student Student `json:"student"`
 }
 
-type deleteStudentResponse struct {
-}
+type deleteStudentResponse struct{}
 
 type getStudentCoursesResponse struct {
 	Courses []Course `json:"courses"`
 }
 
 type getStudentCourseGradesResponse struct {
-	CourseID  string `json:"course_id"`
-    Grades    []Grade `json:"grades"`
+	CourseID string  `json:"course_id"`
+	Grades   []Grade `json:"grades"`
 }
 
-type getStudentGradesResponse struct{
-	Grades    []Grade `json:"grades"`
+type getStudentGradesResponse struct {
+	Grades []Grade `json:"grades"`
 }

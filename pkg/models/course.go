@@ -21,19 +21,19 @@ type getCourseRequest struct {
 }
 
 type createCourseRequest struct {
-	ID          string   `json:"id" binding:"required"`
-	Name        string   `json:"name" binding:"required"`
-	Description string   `json:"description"`
-	TeacherID   string   `json:"teacherId" binding:"required"`
-	IsActive    bool     `json:"isActive"`
+	ID          string `json:"id" binding:"required"`
+	Name        string `json:"name" binding:"required"`
+	Description string `json:"description"`
+	TeacherID   string `json:"teacherId" binding:"required"`
+	IsActive    bool   `json:"isActive"`
 }
 
 type updateCourseRequest struct {
-	ID          string   `uri:"courseId" binding:"required"`
-	Name        string   `json:"name" binding:"required"`
-	Description string   `json:"description"`
-	TeacherID   string   `json:"teacherId" binding:"required"`
-	IsActive    bool     `json:"isActive"`
+	ID          string `uri:"courseId" binding:"required"`
+	Name        string `json:"name" binding:"required"`
+	Description string `json:"description"`
+	TeacherID   string `json:"teacherId" binding:"required"`
+	IsActive    bool   `json:"isActive"`
 }
 
 type addStudentToCourseRequest struct {
@@ -80,20 +80,15 @@ type updateCourseResponse struct {
 	Course Course `json:"course"`
 }
 
-type addStudentToCourseResponse struct {
-}
+type addStudentToCourseResponse struct{}
 
-type removeStudentFromCourseResponse struct {
-}
+type removeStudentFromCourseResponse struct{}
 
-type addStaffToCourseResponse struct {
-}
+type addStaffToCourseResponse struct{}
 
-type removeStaffFromCourseResponse struct {
-}
+type removeStaffFromCourseResponse struct{}
 
-type deleteCourseResponse struct {
-}
+type deleteCourseResponse struct{}
 
 type getCourseStudentsResponse struct {
 	Students []string `json:"students"`
@@ -102,4 +97,3 @@ type getCourseStudentsResponse struct {
 type getCourseStaffResponse struct {
 	Staff []string `json:"staff"`
 }
-

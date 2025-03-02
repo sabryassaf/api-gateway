@@ -59,7 +59,6 @@ func TestGradesMicroserviceIntegration(t *testing.T) {
 	// This call will likely fail with an authentication error, but that's OK
 	// We just want to make sure we can connect to the service
 	_, err = grpcClient.GetCourseGrades(ctx, dummyRequest)
-
 	// The error should be an authentication error, not a connection error
 	if err != nil {
 		t.Logf("Expected authentication error: %v", err)
@@ -145,7 +144,6 @@ func TestGradesMicroserviceIntegrationWithDocker(t *testing.T) {
 
 	// This call will likely fail with an authentication error, but that's OK
 	_, err = grpcClient.GetCourseGrades(ctx, dummyRequest)
-
 	// The error should be an authentication error, not a connection error
 	if err != nil {
 		t.Logf("Expected authentication error: %v", err)

@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+option go_package = "github.com/BetterGR/students-microservice/protos";
+
+package students;
+
+service StudentsService {
+    // Get student.
+    rpc GetStudent (GetStudentRequest) returns (GetStudentResponse);
+    // Create a new student.
+    rpc CreateStudent (CreateStudentRequest) returns (CreateStudentResponse);
+    // Update a student.
+    rpc UpdateStudent (UpdateStudentRequest) returns (UpdateStudentResponse);
+    // Delete a student.
+    rpc DeleteStudent (DeleteStudentRequest) returns (DeleteStudentResponse);
+}
+
+// Request message for getting a student.
+message GetStudentRequest {
+    string token = 1;
+    string studentID = 2;
+}
+
+// Response message containing the student.
+message GetStudentResponse {
+    Student student = 1;
+}
+
+// Request message for creating a new student.
+message CreateStudentRequest {
+    string token = 1;
+    Student student = 2;
+}
+
+// Response message for the result of creating a new student.
+message CreateStudentResponse {
+    Student student = 1;
+}
+
+// Request message for updating an existing student.
+message UpdateStudentRequest {
+    string token = 1;
+    Student student = 2;
+}
+
+// Response message containing the updated student details.
+message UpdateStudentResponse {
+    Student student = 1;
+}
+
+// Request message for deleting a student from the system.
+message DeleteStudentRequest {
+    string token = 1;
+    string studentID = 2;
+}
+
+// Response message after deleting a student.
+message DeleteStudentResponse {
+}
+
+// Message representing a student.
+message Student {
+    string studentID = 1;
+    string firstName = 2;
+    string lastName = 3;
+    string email = 4;
+    string phoneNumber = 5;
+}

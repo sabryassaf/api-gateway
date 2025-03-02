@@ -102,11 +102,9 @@ type updateExamGradeResponse struct {
 	Grade Grade `json:"grade"`
 }
 
-type deleteHomeworkGradeResponse struct {
-}
+type deleteHomeworkGradeResponse struct{}
 
-type deleteExamGradeResponse struct {
-}
+type deleteExamGradeResponse struct{}
 
 type getHomeworkGradeResponse struct {
 	Grade Grade `json:"grade"`

@@ -6,7 +6,7 @@ replace github.com/BetterGR/grades-microservice => ../grades-microservice
 
 replace github.com/BetterGR/students-microservice => ../students-microservice
 
-replace github.com/BetterGR/course-microservice => ../course-microservice
+replace github.com/BetterGR/courses-microservice => ../courses-microservice
 
 replace github.com/BetterGR/homework-microservice => ../homework-microservice
 
@@ -15,18 +15,19 @@ replace github.com/BetterGR/staff-microservice => ../staff-microservice
 go 1.23.4
 
 require (
-	github.com/BetterGR/course-microservice v0.0.0-00010101000000-000000000000
+	github.com/BetterGR/courses-microservice v0.0.0-00010101000000-000000000000
 	github.com/BetterGR/grades-microservice v0.0.0-20241215152914-659c6f21ef47
 	github.com/BetterGR/homework-microservice v0.0.0-00010101000000-000000000000
 	github.com/BetterGR/staff-microservice v0.0.0-00010101000000-000000000000
 	github.com/BetterGR/students-microservice v0.0.0-20241222120755-422b00a5ce44
 	github.com/gin-gonic/gin v1.10.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/joho/godotenv v1.5.1
 	github.com/stretchr/testify v1.10.0
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.4
-	google.golang.org/grpc v1.69.4
+	google.golang.org/grpc v1.70.0
 	k8s.io/klog v1.0.0
 	k8s.io/klog/v2 v2.130.1
 )
@@ -73,7 +74,7 @@ require (
 	golang.org/x/text v0.22.0 // indirect
 	golang.org/x/tools v0.22.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250106144421-5f5ef82da422 // indirect
-	google.golang.org/protobuf v1.36.2 // indirect
+	google.golang.org/protobuf v1.36.5 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect

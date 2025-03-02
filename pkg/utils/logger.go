@@ -2,9 +2,7 @@ package utils
 
 import "k8s.io/klog"
 
-var (
-	DebugMode = true
-)
+var DebugMode = true
 
 func Debug(format string, v ...interface{}) {
 	if DebugMode {

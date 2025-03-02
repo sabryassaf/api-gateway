@@ -4,9 +4,8 @@ import (
 	"os"
 
 	routerApi "github.com/BetterGR/api-gateway/api/routes"
-	"github.com/joho/godotenv"
-
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"k8s.io/klog/v2"
 )
 

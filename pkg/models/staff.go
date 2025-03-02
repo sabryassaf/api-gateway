@@ -56,8 +56,7 @@ type updateStaffMemberResponse struct {
 	Staff Staff `json:"staff"`
 }
 
-type deleteStaffMemberResponse struct {
-}
+type deleteStaffMemberResponse struct{}
 
 type getStaffCoursesRequest struct {
 	ID string `uri:"staffId" binding:"required"`
@@ -70,4 +69,3 @@ type getStaffCoursesResponse struct {
 type createStaffMemberResponse struct {
 	Staff Staff `json:"staff"`
 }
-

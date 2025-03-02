@@ -7,11 +7,10 @@ import (
 	"time"
 
 	gradesProtos "github.com/BetterGR/grades-microservice/protos"
-	"google.golang.org/grpc/credentials/insecure"
-	"k8s.io/klog/v2"
-
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"k8s.io/klog/v2"
 )
 
 const (
@@ -58,7 +57,6 @@ func GetStudentCourseGradesHandler(c *gin.Context, grpcClient gradesProtos.Grade
 	defer cancel()
 
 	response, err := grpcClient.GetStudentCourseGrades(ctx, request)
-
 	if err != nil {
 		klog.Errorf("Error calling gRPC Grades Microservice: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch grades"})

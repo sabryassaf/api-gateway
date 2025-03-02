@@ -4,10 +4,9 @@ import (
 	"net/http"
 
 	homeworkProtos "github.com/BetterGR/homework-microservice/protos"
-	"google.golang.org/grpc/credentials/insecure"
-
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // InitHomeWorkGRPCClient initializes the homework-microservice gRPC client connection.

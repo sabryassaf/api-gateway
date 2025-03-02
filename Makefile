@@ -1,3 +1,10 @@
+# Proto settings
+SERVICE_NAME ?= $(notdir $(CURDIR))
+PROTO_DIR ?= protos
+PROTO_FILE ?= $(PROTO_DIR)/$(SERVICE_NAME).proto
+PROTO_FLAGS = -I $(PROTO_DIR) $(PROTO_FILE) \
+              --go_out=paths=source_relative:$(PROTO_DIR) \
+              --go-grpc_out=paths=source_relative:$(PROTO_DIR)
 
 # Docker settings
 DOCKER_IMAGE_NAME ?= $(SERVICE_NAME)
@@ -79,7 +86,7 @@ lint: ensure-golangci-lint fmt
 	@echo [LINT] Lint checks completed.
 
 # Build server
-build: fmt vet lint
+build: proto fmt vet lint
 	@echo [BUILD] Building server binary...
 ifeq ($(OS),Windows_NT)
 	@go build -o server\server.exe ./server/server.go
@@ -89,17 +96,17 @@ endif
 	@echo [BUILD] Server binary built.
 
 # Run the server
-run: fmt vet lint
+run:  fmt vet lint
 	@echo [RUN] Starting api-gateway...
 	@go run cmd/api-gateway/main.go
 
-test: gomod fmt vet lint
+test: proto gomod fmt vet lint
 	@echo [TEST] Running tests...
 	@go test -v ./server/ | grep -v '=== RUN' | sed 's/--- PASS:/ [PASS]/' | sed 's/--- FAIL:/ [FAIL]/'
 	@echo [TEST] Tests completed.
 
 # Build Docker image
-docker-build: fmt vet lint build
+docker-build: proto fmt vet lint build
 	@echo [DOCKER] Building Docker image $(DOCKER_IMAGE_NAME):$(DOCKER_TAG)... 
 	@docker build -t $(DOCKER_IMAGE_NAME):$(DOCKER_TAG) -f $(DOCKERFILE) .
 	@echo [DOCKER] Docker image $(DOCKER_IMAGE_NAME):$(DOCKER_TAG) built successfully.
@@ -117,9 +124,20 @@ endif
 	@echo [DOCKER] Docker image pushed successfully.
 
 # Clean up generated files
+clean:
+	@echo [CLEAN] Removing generated files...
+ifeq ($(OS),Windows_NT)
+	@del /Q server\server.exe
+	@del /Q protos\*.pb.go
+else
+	@rm -rf server/server
+	@rm -rf protos/*.pb.go
+endif
+	@echo [CLEAN] Clean up complete.
+
 help:
 	@echo Available targets:
-	@echo   all               Build and check everything (gomod, fmt, vet, lint)
+	@echo   all               Build and check everything (proto, gomod, fmt, vet, lint)
 	@echo   gomod             Manage Go modules (tidy and verify)
 	@echo   fmt               Format Go code
 	@echo   vet               Run vet checks on Go code

@@ -40,5 +40,3 @@ type getHomeworkResponse struct {
 type createHomeworkResponse struct {
 	Homework Homework `json:"homework"`
 }
-
-
