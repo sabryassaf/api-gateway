@@ -44,14 +44,14 @@ func GetStudentCourseGradesHandler(c *gin.Context, grpcClient gradesProtos.Grade
 	// Build gRPC request.
 	request := &gradesProtos.GetStudentCourseGradesRequest{
 		Token:     token,
-		CourseId:  courseId,
+		CourseID:  courseId,
 		Semester:  semester,
-		StudentId: studentId,
+		StudentID: studentId,
 	}
 
 	logger := klog.FromContext(c.Request.Context())
-	logger.V(logLevelDebug).Info("Received request for student course grades", "course_id", request.CourseId,
-		"semester", request.Semester, "student_id", request.StudentId)
+	logger.V(logLevelDebug).Info("Received request for student course grades", "course_id", request.CourseID,
+		"semester", request.Semester, "student_id", request.StudentID)
 
 	// Call the gRPC server.
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -90,9 +90,9 @@ func GetStudentSemesterGradesHandler(c *gin.Context, grpcClient gradesProtos.Gra
 	request := &gradesProtos.GetStudentSemesterGradesRequest{
 		Token:     token,
 		Semester:  semester,
-		StudentId: studentId,
+		StudentID: studentId,
 	}
-	logger.V(logLevelDebug).Info("Request built with student ID: '%s'", request.StudentId)
+	logger.V(logLevelDebug).Info("Request built with student ID: '%s'", request.StudentID)
 
 	// Call the gRPC server.
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

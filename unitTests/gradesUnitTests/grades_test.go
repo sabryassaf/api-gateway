@@ -111,12 +111,12 @@ func TestGetStudentCourseGradesHandler_Success(t *testing.T) {
 	// Setup the expected response
 	mockGrades := []*gradesProtos.SingleGrade{
 		{
-			GradeId:    "grade1",
-			StudentId:  studentID,
-			CourseId:   courseID,
+			GradeID:    "grade1",
+			StudentID:  studentID,
+			CourseID:   courseID,
 			Semester:   semesterStr,
 			GradeType:  "Exam",
-			ItemId:     "midterm",
+			ItemID:     "midterm",
 			GradeValue: "A",
 			GradedBy:   "Professor X",
 			Comments:   "Excellent work",
@@ -127,9 +127,9 @@ func TestGetStudentCourseGradesHandler_Success(t *testing.T) {
 	mockClient.On("GetStudentCourseGrades", mock.Anything,
 		&gradesProtos.GetStudentCourseGradesRequest{
 			Token:     token,
-			CourseId:  courseID,
+			CourseID:  courseID,
 			Semester:  semesterStr,
-			StudentId: studentID,
+			StudentID: studentID,
 		},
 		mock.Anything).Return(&gradesProtos.GetStudentCourseGradesResponse{
 		Grades: mockGrades,
@@ -156,7 +156,7 @@ func TestGetStudentCourseGradesHandler_Success(t *testing.T) {
 
 	// Verify the response
 	assert.Len(t, responseGrades, 1)
-	assert.Equal(t, mockGrades[0].GradeId, responseGrades[0].GradeId)
+	assert.Equal(t, mockGrades[0].GradeID, responseGrades[0].GradeID)
 	assert.Equal(t, mockGrades[0].GradeValue, responseGrades[0].GradeValue)
 
 	// Verify that the mock was called as expected
@@ -237,21 +237,21 @@ func TestGetStudentSemesterGradesHandler_Success(t *testing.T) {
 	// Setup the expected response
 	mockGrades := []*gradesProtos.SingleGrade{
 		{
-			GradeId:    "grade1",
-			StudentId:  studentID,
-			CourseId:   "course1",
+			GradeID:    "grade1",
+			StudentID:  studentID,
+			CourseID:   "course1",
 			Semester:   semesterStr,
 			GradeType:  "Exam",
-			ItemId:     "midterm",
+			ItemID:     "midterm",
 			GradeValue: "A",
 		},
 		{
-			GradeId:    "grade2",
-			StudentId:  studentID,
-			CourseId:   "course2",
+			GradeID:    "grade2",
+			StudentID:  studentID,
+			CourseID:   "course2",
 			Semester:   semesterStr,
 			GradeType:  "Homework",
-			ItemId:     "hw1",
+			ItemID:     "hw1",
 			GradeValue: "B+",
 		},
 	}
@@ -261,7 +261,7 @@ func TestGetStudentSemesterGradesHandler_Success(t *testing.T) {
 		&gradesProtos.GetStudentSemesterGradesRequest{
 			Token:     token,
 			Semester:  semesterStr,
-			StudentId: studentID,
+			StudentID: studentID,
 		},
 		mock.Anything).Return(&gradesProtos.GetStudentSemesterGradesResponse{
 		Grades: mockGrades,
@@ -269,8 +269,8 @@ func TestGetStudentSemesterGradesHandler_Success(t *testing.T) {
 
 	// Setup test context
 	params := map[string]string{
-		"semester":   semesterStr,
-		"student_id": studentID,
+		"semester":  semesterStr,
+		"studentId": studentID,
 	}
 	ctx, recorder := setupTestContext("GET", "/api/grades/"+semesterStr+"/"+studentID, params, token)
 
