@@ -293,7 +293,7 @@ func TestAddHomeworkGradeHandler(t *testing.T) {
 	ctx, recorder := setupTestContext("POST", "/api/grades/homework", nil, "valid-token")
 
 	// Call the handler
-	controllers.AddHomeworkGradeHandler(ctx, mockClient)
+	controllers.AddSingleGradeHandler(ctx, mockClient)
 
 	// Since this is not implemented yet, it should return Internal Server Error
 	require.Equal(t, http.StatusInternalServerError, recorder.Code)

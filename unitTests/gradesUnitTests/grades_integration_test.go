@@ -52,7 +52,7 @@ func TestGradesMicroserviceIntegration(t *testing.T) {
 	dummyToken := "test-token"
 	dummyRequest := &gradesProtos.GetCourseGradesRequest{
 		Token:    dummyToken,
-		CourseId: "test-course",
+		CourseID: "test-course",
 		Semester: "SEMESTER_TERM_WINTER_2024",
 	}
 
@@ -138,7 +138,7 @@ func TestGradesMicroserviceIntegrationWithDocker(t *testing.T) {
 	dummyToken := "test-token"
 	dummyRequest := &gradesProtos.GetCourseGradesRequest{
 		Token:    dummyToken,
-		CourseId: "test-course",
+		CourseID: "test-course",
 		Semester: "SEMESTER_TERM_WINTER_2024",
 	}
 

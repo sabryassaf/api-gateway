@@ -67,7 +67,7 @@ func RegisterCoursesRoutes(router *gin.Engine) (courseProtos.CoursesServiceClien
 		controllers.GetCourseStaffHandler(c, grpcClient)
 	})
 
-	router.GET("/api/students/:studentID", func(c *gin.Context) {
+	router.GET("/api/courses/students/:studentID", func(c *gin.Context) {
 		controllers.GetStudentCoursesHandler(c, grpcClient)
 	})
 
@@ -75,9 +75,9 @@ func RegisterCoursesRoutes(router *gin.Engine) (courseProtos.CoursesServiceClien
 		controllers.GetStaffCoursesHandler(c, grpcClient)
 	})
 
-	router.POST("/api/courses/:courseID/announcement", func(c *gin.Context) {
-		controllers.AddAnnouncementToCourseHandler(c, grpcClient)
-	})
+	// router.POST("/api/courses/:courseID/announcement", func(c *gin.Context) {
+	// 	controllers.AddAnnouncementToCourseHandler(c, grpcClient)
+	// })
 
 	router.GET("/api/courses/:courseID/announcements", func(c *gin.Context) {
 		controllers.GetCourseAnnouncementsHandler(c, grpcClient)

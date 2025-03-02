@@ -37,8 +37,17 @@ func GetStudentCourseGradesHandler(c *gin.Context, grpcClient gradesProtos.Grade
 
 	token := strings.TrimPrefix(authHeader, "Bearer ")
 	semester := c.Param("semester")
-	studentId := c.Param("studentId")
+	studentId := c.Param("student_id")
 	courseId := c.Param("courseId")
+
+	// Log the parameters for debugging
+	logger := klog.FromContext(c.Request.Context())
+	logger.V(logLevelDebug).Info("Received request for student course grades",
+		"course_id", courseId,
+		"semester", semester,
+		"student_id", studentId,
+		"URI", c.Request.RequestURI,
+		"params", c.Params)
 
 	// Build gRPC request.
 	request := &gradesProtos.GetStudentCourseGradesRequest{
@@ -47,10 +56,6 @@ func GetStudentCourseGradesHandler(c *gin.Context, grpcClient gradesProtos.Grade
 		Semester:  semester,
 		StudentID: studentId,
 	}
-
-	logger := klog.FromContext(c.Request.Context())
-	logger.V(logLevelDebug).Info("Received request for student course grades", "course_id", request.CourseID,
-		"semester", request.Semester, "student_id", request.StudentID)
 
 	// Call the gRPC server.
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -81,8 +86,13 @@ func GetStudentSemesterGradesHandler(c *gin.Context, grpcClient gradesProtos.Gra
 	semester := c.Param("semester")
 	studentId := c.Param("student_id")
 
+	// Log the parameters for debugging.
 	logger := klog.FromContext(c.Request.Context())
-	logger.V(logLevelDebug).Info("Received request for student grades", "semester", semester, "student_id", studentId)
+	logger.V(logLevelDebug).Info("Received request for student grades",
+		"semester", semester,
+		"student_id", studentId,
+		"URI", c.Request.RequestURI,
+		"params", c.Params)
 
 	// Build gRPC request.
 	request := &gradesProtos.GetStudentSemesterGradesRequest{
@@ -90,7 +100,7 @@ func GetStudentSemesterGradesHandler(c *gin.Context, grpcClient gradesProtos.Gra
 		Semester:  semester,
 		StudentID: studentId,
 	}
-	logger.V(logLevelDebug).Info("Request built with student ID: '%s'", request.StudentID)
+	logger.V(logLevelDebug).Info("Request built with student ID", "studentID", request.StudentID)
 
 	// Call the gRPC server.
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -102,6 +112,8 @@ func GetStudentSemesterGradesHandler(c *gin.Context, grpcClient gradesProtos.Gra
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch grades"})
 		return
 	}
+
+	// Return the entire response including the grades array
 	c.JSON(http.StatusOK, response)
 }
 

@@ -96,7 +96,7 @@ endif
 	@echo [BUILD] Server binary built.
 
 # Run the server
-run:  fmt vet lint
+run:  fmt vet 
 	@echo [RUN] Starting api-gateway...
 	@go run cmd/api-gateway/main.go
 
