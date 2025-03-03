@@ -341,6 +341,8 @@ func GetCourseAnnouncementsHandler(c *gin.Context, grpcClient coursesProtos.Cour
 		return
 	}
 
+	klog.V(5).Infof("Recived request for course announcements, courseID: %s", courseID)
+
 	token := strings.TrimPrefix(authHeader, "Bearer ")
 
 	resp, err := grpcClient.GetCourseAnnouncements(ctx, &coursesProtos.GetCourseAnnouncementsRequest{CourseID: courseID, Token: token})
