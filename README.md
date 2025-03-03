@@ -1,5 +1,5 @@
 # API Gateway
-The BetterGR API Gateway is responsible for routing client requests to the appropriate backend microservices. It acts as a single entry point, handling authentication, authorization, and request forwarding. The gateway ensures secure and efficient communication between the frontend and backend services using gRPC and Keycloak.
+The BetterGR API Gateway is responsible for routing client requests to the appropriate backend microservices. It acts as a single entry point handling request forwarding. The gateway ensures secure and efficient communication between the frontend and backend services using gRPC and Keycloak.
 
 
 ### Documentation
